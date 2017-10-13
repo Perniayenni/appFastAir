@@ -1,14 +1,29 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-item align-items-center>
+  <img src='../../assets/img/logo_fast.jpg'/>
+</ion-item>
+
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label stacked>Bp</ion-label>
+      <ion-input type="text" [(ngModel)]="bp"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Rut</ion-label>
+      <ion-input type="text"  [(ngModel)]="rut"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <button ion-button
+        block
+        [disabled]="rut.length< 2 || bp.length< 2 "
+        color="azulFast"
+        (click)="getDatos()">
+    Ingresar
+  </button>
 </ion-content>
