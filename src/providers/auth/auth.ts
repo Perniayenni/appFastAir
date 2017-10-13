@@ -11,6 +11,10 @@ export class AuthProvider {
     console.log('Hello AuthProvider Provider');
   }
 
+  funRegistro:string= '';
+
+  DatosFun:any=[];
+
   funcionariosURL:string = 'http://fastair.ourproject.cl/public/aut';
 
   getFuncionario(datos) {
@@ -22,14 +26,20 @@ export class AuthProvider {
       .map( res => {
         let dateRes = res.json();
           if(dateRes == '') {
+            this.funRegistro = '';
+            this.DatosFun = [];
             this.alert.create({
               title:'No se encontraron Datos con este bp',
               buttons:['OK']
             }).present();
           }else{
+            this.DatosFun = dateRes;
+            for (let re of dateRes) {
+              this.funRegistro = re.registro;
+            }
 
           }
-        console.log(res.json());
+        console.log(this.DatosFun);
       });
   }
 

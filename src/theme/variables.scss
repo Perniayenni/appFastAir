@@ -87,3 +87,16 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+  .vertical-align-content
+  {
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
+  }

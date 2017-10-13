@@ -1,29 +1,35 @@
 
-<ion-content padding>
-<ion-item align-items-center>
-  <img src='../../assets/img/logo_fast.jpg'/>
-</ion-item>
+<ion-content padding class="vertical-align-content">
 
-
-  <ion-list>
-
-    <ion-item>
-      <ion-label stacked>Bp</ion-label>
-      <ion-input type="text" [(ngModel)]="bp"></ion-input>
+    <ion-item >
+      <img class="center" src='../../assets/img/logo_fast.jpg'/>
     </ion-item>
 
-    <ion-item>
-      <ion-label stacked>Rut</ion-label>
-      <ion-input type="text"  [(ngModel)]="rut"></ion-input>
-    </ion-item>
+    <ion-list>
 
-  </ion-list>
+      <ion-item>
+        <ion-label stacked>Bp</ion-label>
+        <ion-input type="text" [(ngModel)]="bp"></ion-input>
+      </ion-item>
 
-  <button ion-button
-        block
-        [disabled]="rut.length< 2 || bp.length< 2 "
-        color="azulFast"
-        (click)="getDatos()">
-    Ingresar
-  </button>
+      <ion-item>
+        <ion-label stacked>Rut</ion-label>
+        <ion-input type="text"  [(ngModel)]="rut"></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <button ion-button
+            icon-right
+            block
+            [disabled]="rut.length< 2 || bp.length< 2 "
+            color="azulFast"
+            (click)="getDatos()">
+      Ingresar
+      <ion-icon name="send"></ion-icon>
+
+    </button>
+{{auth.funRegistro}}
+
 </ion-content>
+
