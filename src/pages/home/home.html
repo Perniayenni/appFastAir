@@ -1,35 +1,44 @@
 
 <ion-content padding class="vertical-align-content">
 
-    <ion-item >
-      <img class="center" src='../../assets/img/logo_fast.jpg'/>
-    </ion-item>
+  <ion-grid >
+    <ion-row>
+      <ion-col class="text-center styHome">
+        <ion-item >
+          <img class="center" src='../../assets/img/logo_fast.jpg'/>
+        </ion-item>
 
-    <ion-list>
+        <ion-list>
 
-      <ion-item>
-        <ion-label stacked>Bp</ion-label>
-        <ion-input type="text" [(ngModel)]="bp"></ion-input>
-      </ion-item>
+          <ion-item>
+            <ion-label stacked>Bp</ion-label>
+            <ion-input type="text" [(ngModel)]="bp"></ion-input>
+          </ion-item>
 
-      <ion-item>
-        <ion-label stacked>Rut</ion-label>
-        <ion-input type="text"  [(ngModel)]="rut"></ion-input>
-      </ion-item>
+          <ion-item>
+            <ion-label stacked>Rut</ion-label>
+            <ion-input type="text"  [(ngModel)]="rut"></ion-input>
+          </ion-item>
 
-    </ion-list>
+        </ion-list>
 
-    <button ion-button
-            icon-right
-            block
-            [disabled]="rut.length< 2 || bp.length< 2 "
-            color="azulFast"
-            (click)="getDatos()">
-      Ingresar
-      <ion-icon name="send"></ion-icon>
+        <button ion-button
+                icon-right
+                block
+                [disabled]="rut.length< 2 || bp.length< 2 "
+                color="azulFast"
+                (click)="getDatos()">
+          Ingresar
+          <ion-icon name="send"></ion-icon>
 
-    </button>
-{{auth.funRegistro}}
+        </button>
+        {{auth.funRegistro}}
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 
 </ion-content>
 

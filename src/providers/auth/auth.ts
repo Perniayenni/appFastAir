@@ -40,6 +40,7 @@ export class AuthProvider {
 
           }
         console.log(this.DatosFun);
+        console.log(this.funRegistro);
       });
   }
 

@@ -16,4 +16,21 @@
 
 <ion-content padding>
 
+  <ion-grid *ngIf="msg.length===0">
+    <ion-row>
+      <ion-col class="text-center caja-vacia">
+        <ion-icon ios="ios-sunny" md="md-sunny" class="iconno-grande"></ion-icon>
+        <p>No hay Notificaciones que mostrar</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card  *ngIf="msg.length!=0">
+    <ion-card-header>
+      fecha
+    </ion-card-header>
+    <ion-card-content>
+      mensaje
+    </ion-card-content>
+  </ion-card>
 </ion-content>
