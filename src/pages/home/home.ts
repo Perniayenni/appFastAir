@@ -27,7 +27,7 @@ export class HomePage {
     this.auth.getFuncionario(datos)
       .subscribe(res =>{
         if(this.auth.funRegistro != ''){
-          this.navCtrl.push( this.paginaPrinc );
+          this.navCtrl.setRoot( this.paginaPrinc );
         }
     } )
   }
