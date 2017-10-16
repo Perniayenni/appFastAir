@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { mensaje } from '../../clases/mensaje';
+
 
 @Component({
   selector: 'page-pag-principal',
@@ -9,7 +9,7 @@ import { mensaje } from '../../clases/mensaje';
 })
 export class PagPrincipalPage {
   DatosFuncionarios:any=[];
-  msg:mensaje[]=[];
+
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider) {
@@ -18,8 +18,5 @@ export class PagPrincipalPage {
   }
 
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PagPrincipalPage');
-  }
 
 }
