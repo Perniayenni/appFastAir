@@ -10,6 +10,7 @@ import { PagPrincipalPage } from '../pages/pag-principal/pag-principal';
 import { AuthProvider } from '../providers/auth/auth';
 
 import { HttpModule } from '@angular/http';
+import { OneSignal } from '@ionic-native/onesignal';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     SplashScreen,
+    OneSignal,
     AuthProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
 
