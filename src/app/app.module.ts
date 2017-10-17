@@ -13,6 +13,10 @@ import { HttpModule } from '@angular/http';
 import { OneSignal } from '@ionic-native/onesignal';
 
 
+// storage
+import { IonicStorageModule } from '@ionic/storage';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -22,6 +26,7 @@ import { OneSignal } from '@ionic-native/onesignal';
   imports: [
     BrowserModule,
     HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

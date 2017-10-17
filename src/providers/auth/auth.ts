@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { AlertController } from 'ionic-angular';
+import { AlertController, Platform } from 'ionic-angular';
 import { OneSignal } from '@ionic-native/onesignal';
 import { mensaje } from '../../clases/mensaje';
+import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/map';
 
@@ -14,7 +15,10 @@ export class AuthProvider {
 
   constructor(public http: Http,
               public alert: AlertController,
-              public oneSignal: OneSignal) {
+              public oneSignal: OneSignal,
+              private storage: Storage,
+              private platform: Platform) {
+    this.cargarMensajesStorage();
   }
 
   funRegistro:string= '';
@@ -68,8 +72,8 @@ export class AuthProvider {
       let momentoActual = new Date();
       let fechaA =momentoActual.getHours()+"-"+momentoActual.getMinutes()+"-"+momentoActual.getSeconds();
       let mensag = new mensaje (fechaA, resp.payload.title, resp.payload.body );
-
       this.msg.push(mensag);
+      this.guardarMensajesStorage();
 
     });
     this.oneSignal.getIds().then( (datos) =>{
@@ -95,5 +99,41 @@ export class AuthProvider {
       });
   }
 
+ private guardarMensajesStorage(){
+      if (this.platform.is('cordova')){
+        this.storage.set('mensajes', this.msg);
+      }else{
+        // computadora
+        localStorage.setItem('mensajes', JSON.stringify(this.msg));
+      }
+  }
+
+  cargarMensajesStorage(){
+
+    let promesa = new  Promise ( (resolve, reject) => {
+      if (this.platform.is('cordova')){
+        //Dispositivo
+        this.storage.ready()
+          .then(()=>{
+
+          this.storage.get('mensajes')
+              .then(mesajes =>{
+                if(mesajes){
+                  this.msg =mesajes;
+                }
+                resolve();
+              })
+          });
+      }else{
+        //Computadora
+        if (localStorage.getItem('mensajes')){
+          this.msg = JSON.parse(localStorage.getItem('mensajes'))
+        }
+        resolve();
+      }
+
+    });
+
+  }
 
 }
