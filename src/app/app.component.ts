@@ -16,19 +16,31 @@ export class MyApp {
               private auth:AuthProvider) {
     platform.ready().then(() => {
 
-      this.auth.cargarStorageSession();
-      console.log(this.auth.sessionStart);
+      this.auth.cargarStorageSession()
+        .then (()=>{
+          this.auth.cargarStorageFuncionarios();
+                this.auth.cargarMensajesStorage();
 
-      if(this.auth.sessionStart){
-        this.rootPage = PagPrincipalPage;
-      }else{
-        this.rootPage = HomePage;
-      }
+                console.log("Despues de cargar el storage");
+                console.log(auth.sessionStart);
+                console.log(auth.DatosFun);
+
+                if(this.auth.sessionStart){
+                  console.log("SessionStart True");
+                  this.auth.getOneSignal();
+                  this.rootPage = PagPrincipalPage;
+
+                }else{
+                  this.rootPage = HomePage;
+                }
+                statusBar.styleDefault();
+                splashScreen.hide();
+
+      });
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+
     });
   }
 }
