@@ -10,13 +10,15 @@ import { PagPrincipalPage} from '../pages/pag-principal/pag-principal';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any;
+  rootPage:any=HomePage ;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
               private auth:AuthProvider) {
     platform.ready().then(() => {
 
-      this.auth.cargarStorageSession()
+      //this.rootPage = HomePage;
+
+    /*  this.auth.cargarStorageSession()
         .then (()=>{
           this.auth.cargarStorageFuncionarios();
                 this.auth.cargarMensajesStorage();
@@ -33,14 +35,14 @@ export class MyApp {
                 }else{
                   this.rootPage = HomePage;
                 }
-                statusBar.styleDefault();
-                splashScreen.hide();
 
-      });
+
+      });*/
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-
+      statusBar.styleDefault();
+      splashScreen.hide();
     });
   }
 }

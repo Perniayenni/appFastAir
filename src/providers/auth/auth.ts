@@ -18,9 +18,10 @@ export class AuthProvider {
   DatosFun:any=[];
   sessionStart:boolean = false;
 
-
   funcionariosURL:string = 'http://fastair.ourproject.cl/public/aut';
   sendOneSing:string = 'http://fastair.ourproject.cl/public/credenciales';
+
+  bandera:string = 'D'; // Se coloca Bandera en Default
 
 
   constructor(public http: Http,
@@ -29,7 +30,8 @@ export class AuthProvider {
               private storage: Storage,
               private platform: Platform,
               private loadingController:LoadingController) {
-    //this.cargarMensajesStorage();
+    //this.cargarStorageFuncionarios();
+    this.cargarMensajesStorage();
   }
 
 
@@ -75,7 +77,7 @@ export class AuthProvider {
             this.getOneSignal();
             console.log("En el getfun sessionstart: " + this.sessionStart);
             console.log(JSON.stringify(this.DatosFun));
-            this.guardamosStorageSession();
+            //this.guardamosStorageSession();
 
           }
         }
@@ -89,48 +91,76 @@ export class AuthProvider {
 
      //this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationReceived().subscribe(data => {
-      /*let resp = data.payload;
-      console.log("Entro en OnseSignal Notificación.");
+      console.log("Entro en OnseSignal Notificación Recibida.");
+      console.log("Bandera esta en: "+this.bandera);
+        if (this.bandera =='D'){
+          console.log("Entra en D Recibido");
+          let resp = data.payload;
+          ///////// Creamos La fecha Actual ////////
+          let FechaActual = new Date();
+          let hora =FechaActual.getHours()+":"+FechaActual.getMinutes()+":"+FechaActual.getSeconds();
+          let fechaA = FechaActual.getDate()+"-"+FechaActual.getMonth()+"-"+FechaActual.getFullYear();
+          let fechaCompleta = fechaA+" "+hora;
 
-      ///////// Creamos La fecha Actual ////////
-      let FechaActual = new Date();
-      let hora =FechaActual.getHours()+":"+FechaActual.getMinutes()+":"+FechaActual.getSeconds();
-      let fechaA = FechaActual.getDate()+"-"+FechaActual.getMonth()+"-"+FechaActual.getFullYear();
-      let fechaCompleta = fechaA+" "+hora;
+          ///////// guardamos en la clase ////////
+          let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
+          this.msg.push(mensag);
 
-      ///////// guardamos en la clase ////////
-      let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
-      this.msg.push(mensag);
+          ///////// Guardamos en LocalStorage ////////
+          this.guardarMensajesStorage();
+          this.bandera = 'R';
+          console.log("Bandera esta en: "+this.bandera);
+        }
 
-      ///////// Guardamos en LocalStorage ////////
-      this.guardarMensajesStorage();*/
     });
 
    this.oneSignal.handleNotificationOpened().subscribe(data => {
-      alert(data.notification.payload.body);
-     let resp = data.notification.payload;
-     let FechaActual = new Date();
-     let hora =FechaActual.getHours()+":"+FechaActual.getMinutes()+":"+FechaActual.getSeconds();
-     let fechaA = FechaActual.getDate()+"-"+FechaActual.getMonth()+"-"+FechaActual.getFullYear();
-     let fechaCompleta = fechaA+" "+hora;
+     //alert(data.notification.payload.body);
+     console.log("Entro en OnseSignal Notificación Open.");
+     console.log("Bandera esta en: " + this.bandera)
 
-     ///////// guardamos en la clase ////////
-     let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
-     this.msg.push(mensag);
-     this.guardarMensajesStorage();
+     if (this.bandera == 'D') {
+       console.log("Entra en D Open");
+       let alert = this.alert.create({
+         title: data.notification.payload.title,
+         subTitle: data.notification.payload.body,
+         buttons: ['OK']
+       });
+       alert.present();
+       let resp = data.notification.payload;
+
+
+       ///////// Creamos La fecha Actual ////////
+       let FechaActual = new Date();
+       let hora =FechaActual.getHours()+":"+FechaActual.getMinutes()+":"+FechaActual.getSeconds();
+       let fechaA = FechaActual.getDate()+"-"+FechaActual.getMonth()+"-"+FechaActual.getFullYear();
+       let fechaCompleta = fechaA+" "+hora;
+
+       ///////// guardamos en la clase ////////
+       let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
+       this.msg.push(mensag);
+
+       ///////// Guardamos en LocalStorage ////////
+       this.guardarMensajesStorage();
+       this.bandera = 'D';
+       console.log("Bandera esta en: "+this.bandera);
+     }else{
+       this.bandera='D';
+       console.log("Bandera desde Elf Open esta en : "+this.bandera);
+     }
+   });
+
+   this.oneSignal.getIds().then( (datos) =>{
+     console.log("Obtenemos Id"+datos.userId);
+        this.updatePlayerID(datos.userId);
+
     });
-    console.log("Ento en Onesin");
-    this.oneSignal.getIds().then( (datos) =>{
-       this.updatePlayerID(datos.userId);
-
-    });
-
     this.oneSignal.endInit();
 
   }
 
     updatePlayerID(idOne){
-    console.log("Entra en Update");
+      console.log("Entra en Update "+idOne);
     let url = `${this.sendOneSing}/${this.funRegistro}`;
     let idO =  idOne.replace('"','');
       var body = {
@@ -187,7 +217,12 @@ export class AuthProvider {
 
     }
 
-    private guardamosStorageSession(){
+    EliminarMensajesStorage(){
+      this.msg= [];
+      this.guardarMensajesStorage();
+    }
+
+  /*  private guardamosStorageSession(){
       if (this.platform.is('cordova')){
         this.storage.set('SessionStart', JSON.stringify(this.sessionStart));
         this.storage.set('funcionarios', this.DatosFun);
@@ -262,5 +297,5 @@ export class AuthProvider {
         }
 
       });
-    }
+    }*/
 }
