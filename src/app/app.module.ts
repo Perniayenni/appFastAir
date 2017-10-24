@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PagPrincipalPage } from '../pages/pag-principal/pag-principal';
+import { AntesDePrincipalPage } from '../pages/antes-de-principal/antes-de-principal';
 import { AuthProvider } from '../providers/auth/auth';
 
 import { HttpModule } from '@angular/http';
@@ -21,7 +22,8 @@ import { IonicStorageModule } from '@ionic/storage';
   declarations: [
     MyApp,
     HomePage,
-    PagPrincipalPage
+    PagPrincipalPage,
+    AntesDePrincipalPage
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { IonicStorageModule } from '@ionic/storage';
   entryComponents: [
     MyApp,
     HomePage,
-    PagPrincipalPage
+    PagPrincipalPage,
+    AntesDePrincipalPage
   ],
   providers: [
     StatusBar,

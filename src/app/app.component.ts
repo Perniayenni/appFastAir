@@ -5,12 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth'
 
 import { HomePage } from '../pages/home/home';
-import { PagPrincipalPage} from '../pages/pag-principal/pag-principal';
+import { AntesDePrincipalPage } from '../pages/antes-de-principal/antes-de-principal';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any=HomePage ;
+  rootPage:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
               private auth:AuthProvider) {
@@ -18,31 +19,25 @@ export class MyApp {
 
       //this.rootPage = HomePage;
 
-    /*  this.auth.cargarStorageSession()
+     this.auth.cargarStorageSession()
         .then (()=>{
-          this.auth.cargarStorageFuncionarios();
-                this.auth.cargarMensajesStorage();
-
-                console.log("Despues de cargar el storage");
-                console.log(auth.sessionStart);
-                console.log(auth.DatosFun);
 
                 if(this.auth.sessionStart){
                   console.log("SessionStart True");
+                  this.rootPage = AntesDePrincipalPage;
                   this.auth.getOneSignal();
-                  this.rootPage = PagPrincipalPage;
 
                 }else{
                   this.rootPage = HomePage;
                 }
 
-
-      });*/
+          statusBar.styleDefault();
+          splashScreen.hide();
+      });
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+
     });
   }
 }

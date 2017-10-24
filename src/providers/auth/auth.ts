@@ -77,7 +77,7 @@ export class AuthProvider {
             this.getOneSignal();
             console.log("En el getfun sessionstart: " + this.sessionStart);
             console.log(JSON.stringify(this.DatosFun));
-            //this.guardamosStorageSession();
+            this.guardamosStorageSession();
 
           }
         }
@@ -222,7 +222,7 @@ export class AuthProvider {
       this.guardarMensajesStorage();
     }
 
-  /*  private guardamosStorageSession(){
+   private guardamosStorageSession(){
       if (this.platform.is('cordova')){
         this.storage.set('SessionStart', JSON.stringify(this.sessionStart));
         this.storage.set('funcionarios', this.DatosFun);
@@ -297,5 +297,5 @@ export class AuthProvider {
         }
 
       });
-    }*/
+    }
 }
