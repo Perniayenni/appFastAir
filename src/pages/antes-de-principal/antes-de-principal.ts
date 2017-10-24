@@ -12,13 +12,15 @@ export class AntesDePrincipalPage {
 
   PaginaPrincipal:any = PagPrincipalPage;
 
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private auth:AuthProvider) {
     this.auth.cargarStorageFuncionarios();
+    for (let re of auth.DatosFun) {
+      this.auth.funRegistro= re.registro;
+    }
+
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AntesDePrincipalPage');
-  }
 
 }

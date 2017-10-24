@@ -28,7 +28,7 @@ export class MyApp {
               this.rootPage = AntesDePrincipalPage;
               console.log('Cargamos Mensajes');
 
-              this.auth.getOneSignal();
+              //this.auth.getOneSignal();
 
             }else{
               this.rootPage = HomePage;

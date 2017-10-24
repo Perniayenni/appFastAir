@@ -20,6 +20,7 @@ export class AuthProvider {
 
   funcionariosURL:string = 'http://fastair.ourproject.cl/public/aut';
   sendOneSing:string = 'http://fastair.ourproject.cl/public/credenciales';
+  UrlObtenerMensaje:string='http://fastair.ourproject.cl/public/msgFun';
 
   bandera:string = 'D'; // Se coloca Bandera en Default
 
@@ -300,4 +301,13 @@ export class AuthProvider {
 
       });
     }
+
+  getMensajes() {
+    let url = this.UrlObtenerMensaje+'/'+this.funRegistro;
+
+    return this.http.get( this.funcionariosURL)
+      .map( res => {
+        let dateRes = res.json();
+      });
+  }
 }
