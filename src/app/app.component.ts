@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, AlertController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth'
@@ -14,22 +14,27 @@ export class MyApp {
   rootPage:any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-              private auth:AuthProvider) {
+              private auth:AuthProvider,
+              public alert: AlertController,
+              private loadingController:LoadingController) {
     platform.ready().then(() => {
 
       //this.rootPage = HomePage;
-
      this.auth.cargarStorageSession()
         .then (()=>{
 
-                if(this.auth.sessionStart){
-                  console.log("SessionStart True");
-                  this.rootPage = AntesDePrincipalPage;
-                  this.auth.getOneSignal();
+          this.auth.cargarMensajesStorage().then(()=>{
+            if(this.auth.sessionStart){
+              this.rootPage = AntesDePrincipalPage;
+              console.log('Cargamos Mensajes');
 
-                }else{
-                  this.rootPage = HomePage;
-                }
+              this.auth.getOneSignal();
+
+            }else{
+              this.rootPage = HomePage;
+            }
+          });
+
 
           statusBar.styleDefault();
           splashScreen.hide();

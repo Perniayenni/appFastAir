@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
-import { AlertController, Platform, LoadingController } from 'ionic-angular';
+import {AlertController, Platform, LoadingController, NavController} from 'ionic-angular';
 import { OneSignal } from '@ionic-native/onesignal';
 import { mensaje } from '../../clases/mensaje';
 import { Storage } from '@ionic/storage';
@@ -30,8 +30,6 @@ export class AuthProvider {
               private storage: Storage,
               private platform: Platform,
               private loadingController:LoadingController) {
-    //this.cargarStorageFuncionarios();
-    this.cargarMensajesStorage();
   }
 
 
@@ -96,6 +94,7 @@ export class AuthProvider {
         if (this.bandera =='D'){
           console.log("Entra en D Recibido");
           let resp = data.payload;
+
           ///////// Creamos La fecha Actual ////////
           let FechaActual = new Date();
           let hora =FechaActual.getHours()+":"+FechaActual.getMinutes()+":"+FechaActual.getSeconds();
@@ -103,8 +102,11 @@ export class AuthProvider {
           let fechaCompleta = fechaA+" "+hora;
 
           ///////// guardamos en la clase ////////
-          let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
+          console.log("Msg de RECIB Antes "+JSON.stringify( this.msg));
+          let mensag = new mensaje (fechaCompleta, resp.title, resp.body );
           this.msg.push(mensag);
+
+          console.log("Msg de RECIB Antes "+JSON.stringify( this.msg));
 
           ///////// Guardamos en LocalStorage ////////
           this.guardarMensajesStorage();
@@ -127,8 +129,8 @@ export class AuthProvider {
          buttons: ['OK']
        });
        alert.present();
-       let resp = data.notification.payload;
 
+       let resp = data.notification.payload;
 
        ///////// Creamos La fecha Actual ////////
        let FechaActual = new Date();
@@ -137,8 +139,10 @@ export class AuthProvider {
        let fechaCompleta = fechaA+" "+hora;
 
        ///////// guardamos en la clase ////////
-       let mensag = new mensaje (fechaCompleta, resp.title, resp.body )
+       let mensag = new mensaje (fechaCompleta, resp.title, resp.body );
+       console.log("Msg de OPEN Antes "+JSON.stringify( this.msg));
        this.msg.push(mensag);
+       console.log("Msg de OPEN despues "+JSON.stringify( this.msg));
 
        ///////// Guardamos en LocalStorage ////////
        this.guardarMensajesStorage();
@@ -191,10 +195,10 @@ export class AuthProvider {
 
     cargarMensajesStorage(){
 
-      let promesa = new  Promise ( (resolve, reject) => {
+      return new  Promise ( (resolve, reject) => {
         if (this.platform.is('cordova')){
           //Dispositivo
-          this.storage.ready()
+         return this.storage.ready()
             .then(()=>{
 
             this.storage.get('mensajes')
@@ -202,6 +206,7 @@ export class AuthProvider {
                   if(mesajes){
                     this.msg =mesajes;
                   }
+                  console.log("Mensaje cargado"+ JSON.stringify(this.msg));
                   resolve();
                 })
             });
@@ -214,7 +219,6 @@ export class AuthProvider {
         }
 
       });
-
     }
 
     EliminarMensajesStorage(){
@@ -281,8 +285,6 @@ export class AuthProvider {
                 .then(resps =>{
                   if(resps){
                     this.DatosFun = resps;
-                    console.log("Cargando el storage funcionarios "+JSON.parse(resps));
-                    console.log(JSON.stringify(this.DatosFun));
                     resolve();
                   }
 
