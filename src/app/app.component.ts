@@ -23,12 +23,15 @@ export class MyApp {
      this.auth.cargarStorageSession()
         .then (()=>{
 
-          this.auth.cargarMensajesStorage().then(()=>{
+          this.auth.cargarStorageFuncionarios().then(()=>{
+            for (let re of auth.DatosFun) {
+              this.auth.funRegistro= re.registro;
+            }
             if(this.auth.sessionStart){
               this.rootPage = AntesDePrincipalPage;
-              console.log('Cargamos Mensajes');
-
-              //this.auth.getOneSignal();
+             // console.log('Cargamos Funcionarios');
+             // console.log(this.auth.funRegistro);
+              this.auth.getOneSignal();
 
             }else{
               this.rootPage = HomePage;

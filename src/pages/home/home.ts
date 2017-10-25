@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { PagPrincipalPage } from '../../pages/pag-principal/pag-principal';
+import { AntesDePrincipalPage } from '../../pages/antes-de-principal/antes-de-principal';
 
 @Component({
   selector: 'page-home',
@@ -11,7 +11,7 @@ export class HomePage {
 
   bp:string = "";
   rut:string = "";
-  paginaPrinc:any = PagPrincipalPage;
+  antesDePrincipalPage:any = AntesDePrincipalPage;
 
   constructor(public navCtrl: NavController,
               private auth: AuthProvider) {
@@ -26,8 +26,9 @@ export class HomePage {
 
     this.auth.getFuncionario(datos)
       .subscribe(res =>{
+        console.log(res);
         if(this.auth.funRegistro != ''){
-          this.navCtrl.setRoot( this.paginaPrinc );
+          this.navCtrl.setRoot( this.antesDePrincipalPage );
         }
     } )
   }

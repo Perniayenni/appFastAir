@@ -90,7 +90,18 @@ export class AuthProvider {
 
      //this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationReceived().subscribe(data => {
-      console.log("Entro en OnseSignal Notificación Recibida.");
+      const loading = this.loadingController.create({
+      });
+      loading.present();
+
+      this.getMensajes()
+        .subscribe(data=>{
+          if (data == true){
+            loading.dismiss();
+          }
+        });
+
+      /*console.log("Entro en OnseSignal Notificación Recibida.");
       console.log("Bandera esta en: "+this.bandera);
         if (this.bandera =='D'){
           console.log("Entra en D Recibido");
@@ -113,17 +124,17 @@ export class AuthProvider {
           this.guardarMensajesStorage();
           this.bandera = 'R';
           console.log("Bandera esta en: "+this.bandera);
-        }
+        }*/
 
     });
 
    this.oneSignal.handleNotificationOpened().subscribe(data => {
      //alert(data.notification.payload.body);
-     console.log("Entro en OnseSignal Notificación Open.");
+    /* console.log("Entro en OnseSignal Notificación Open.");
      console.log("Bandera esta en: " + this.bandera)
 
      if (this.bandera == 'D') {
-       console.log("Entra en D Open");
+       console.log("Entra en D Open");*/
        let alert = this.alert.create({
          title: data.notification.payload.title,
          subTitle: data.notification.payload.body,
@@ -131,6 +142,7 @@ export class AuthProvider {
        });
        alert.present();
 
+    /*
        let resp = data.notification.payload;
 
        ///////// Creamos La fecha Actual ////////
@@ -152,7 +164,7 @@ export class AuthProvider {
      }else{
        this.bandera='D';
        console.log("Bandera desde Elf Open esta en : "+this.bandera);
-     }
+     }*/
    });
 
    this.oneSignal.getIds().then( (datos) =>{
@@ -276,19 +288,19 @@ export class AuthProvider {
     }
 
     public cargarStorageFuncionarios(){
-      let promesa = new  Promise ( (resolve, reject) => {
+      return new  Promise ( (resolve, reject) => {
         if (this.platform.is('cordova')){
           //Dispositivo
-          this.storage.ready()
+          return this.storage.ready()
             .then(()=>{
 
               this.storage.get('funcionarios')
                 .then(resps =>{
                   if(resps){
                     this.DatosFun = resps;
-                    resolve();
                   }
-
+                  console.log("Funcionario cargado"+ JSON.stringify( this.DatosFun));
+                  resolve();
                 })
             });
         }else{
@@ -303,11 +315,24 @@ export class AuthProvider {
     }
 
   getMensajes() {
+    this.msg = [];
     let url = this.UrlObtenerMensaje+'/'+this.funRegistro;
 
-    return this.http.get( this.funcionariosURL)
+    return this.http.get( url )
       .map( res => {
         let dateRes = res.json();
+        console.log(res.json());
+        let mensag;
+        for (let re of dateRes) {
+          let sep = re.mensaje.split('*');
+          let titulo = sep[0];
+          let mensajeTica= sep[1];
+          let mensajeMuni= sep[2];
+          let mensajeLosa= sep[3];
+          mensag = new mensaje (re.fechaM, titulo, mensajeTica, mensajeMuni, mensajeLosa);
+          this.msg.push(mensag);
+        }
+        return true;
       });
   }
 }

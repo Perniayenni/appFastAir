@@ -27,12 +27,16 @@
 
   <ion-card *ngFor="let mensajes of auth.msg">
     <ion-item color="GrisLo">
-      <h2>{{mensajes.fecha}}</h2>
+      <h2>{{mensajes.fecha | date:'d-MM-yy' }}</h2>
     </ion-item>
 
     <ion-card-content>
       {{mensajes.titulo}}
-      {{mensajes.mensaje}}
+      <ul>
+        <li>{{mensajes.mensajeTica}}</li>
+        <li>{{mensajes.mensajeMuni}}</li>
+        <li>{{mensajes.mensajeLosa}}</li>
+      </ul>
     </ion-card-content>
 
   </ion-card>

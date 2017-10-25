@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { PagPrincipalPage} from '../pag-principal/pag-principal';
 
@@ -14,12 +14,19 @@ export class AntesDePrincipalPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private auth:AuthProvider) {
-    this.auth.cargarStorageFuncionarios();
-    for (let re of auth.DatosFun) {
-      this.auth.funRegistro= re.registro;
-    }
+              private auth:AuthProvider, public loadingCtrl: LoadingController) {
 
+  }
+  GetMensaje(){
+    const loading = this.loadingCtrl.create({
+    });
+    loading.present();
+
+    this.auth.getMensajes()
+       .subscribe(data=>{
+            loading.dismiss();
+            this.navCtrl.push(this.PaginaPrincipal);
+       });
   }
 
 

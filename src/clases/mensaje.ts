@@ -1,12 +1,16 @@
 export class mensaje{
   fecha:string;
   titulo:string;
-  mensaje:string;
+  mensajeTica:string;
+  mensajeMuni:string;
+  mensajeLosa:string;
 
-  constructor(fecha, titulo, mensaje){
+  constructor(fecha, titulo, mensajeTica, mensajeMuni, mensajeLosa){
     this.fecha = fecha;
     this.titulo = titulo;
-    this.mensaje= mensaje;
+    this.mensajeTica= mensajeTica;
+    this.mensajeMuni= mensajeMuni;
+    this.mensajeLosa= mensajeLosa;
   }
 
 }
