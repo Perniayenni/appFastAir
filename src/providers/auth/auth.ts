@@ -90,17 +90,18 @@ export class AuthProvider {
 
      //this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationReceived().subscribe(data => {
-      const loading = this.loadingController.create({
-      });
-      loading.present();
+      if (this.bandera =='D') {
+        const loading = this.loadingController.create({});
+        loading.present();
 
-      this.getMensajes()
-        .subscribe(data=>{
-          if (data == true){
-            loading.dismiss();
-          }
-        });
-
+        this.getMensajes()
+          .subscribe(data => {
+            if (data == true) {
+              loading.dismiss();
+            }
+          });
+        this.bandera = 'R';
+      }
       /*console.log("Entro en OnseSignal Notificación Recibida.");
       console.log("Bandera esta en: "+this.bandera);
         if (this.bandera =='D'){
@@ -129,19 +130,17 @@ export class AuthProvider {
     });
 
    this.oneSignal.handleNotificationOpened().subscribe(data => {
-     //alert(data.notification.payload.body);
-    /* console.log("Entro en OnseSignal Notificación Open.");
-     console.log("Bandera esta en: " + this.bandera)
-
      if (this.bandera == 'D') {
-       console.log("Entra en D Open");*/
        let alert = this.alert.create({
          title: data.notification.payload.title,
          subTitle: data.notification.payload.body,
          buttons: ['OK']
        });
        alert.present();
-
+       this.bandera = 'D';
+     }else{
+        this.bandera='D';
+      }
     /*
        let resp = data.notification.payload;
 
