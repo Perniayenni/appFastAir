@@ -28,7 +28,8 @@
   <ion-card *ngFor="let mensajes of auth.msg">
     <ion-item color="danger">
       <ion-row>
-        <ion-col>{{mensajes.titulo}}</ion-col> <ion-col  text-right >{{mensajes.fecha | date:'d-MM-yy' }}</ion-col>
+        <ion-col>{{mensajes.titulo}}</ion-col>
+        <ion-col  class="tamanoLetr" text-right>{{mensajes.fecha | date:'d-MM-yy' }}</ion-col>
       </ion-row>
     </ion-item>
 
