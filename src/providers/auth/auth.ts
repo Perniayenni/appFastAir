@@ -33,9 +33,7 @@ export class AuthProvider {
               private loadingController:LoadingController) {
   }
 
-
-
-  getFuncionario(datos) {
+    public getFuncionario(datos) {
     let loading = this.loadingController.create({
       content: 'Espere por favor'
     });
@@ -49,6 +47,7 @@ export class AuthProvider {
     return this.http.post( this.funcionariosURL, body, { headers })
       .map( res => {
         let dateRes = res.json();
+        //console.log(dateRes);
         if (dateRes == '') {
           loading.dismiss();
           this.funRegistro = '';
@@ -73,9 +72,9 @@ export class AuthProvider {
             this.DatosFun = dateRes;
             this.sessionStart = true;
             this.funRegistro = re.registro;
-            this.getOneSignal();
+           // this.getOneSignal();
             console.log("En el getfun sessionstart: " + this.sessionStart);
-            console.log(JSON.stringify(this.DatosFun));
+            //console.log(JSON.stringify(this.DatosFun));
             this.guardamosStorageSession();
 
           }
@@ -84,7 +83,7 @@ export class AuthProvider {
       });
   }
 
-    getOneSignal(){
+    public getOneSignal(){
     console.log("Entro en OnseSignal");
       this.oneSignal.startInit('b4872d1c-8bae-4355-aef6-6bec584fc6af', '1076348014901');
 
@@ -175,7 +174,7 @@ export class AuthProvider {
 
   }
 
-    updatePlayerID(idOne){
+    private updatePlayerID(idOne){
       console.log("Entra en Update "+idOne);
     let url = `${this.sendOneSing}/${this.funRegistro}`;
     let idO =  idOne.replace('"','');
@@ -238,6 +237,7 @@ export class AuthProvider {
       this.guardarMensajesStorage();
     }
 
+    /// Guarda el Storage de la session
    private guardamosStorageSession(){
       if (this.platform.is('cordova')){
         this.storage.set('SessionStart', JSON.stringify(this.sessionStart));
@@ -258,6 +258,7 @@ export class AuthProvider {
 
     }
 
+    /// Metodo que Carga En el storage el stado de la session
     public cargarStorageSession(){
       let promesa = new  Promise ( (resolve, reject) => {
         if (this.platform.is('cordova')){
@@ -286,6 +287,7 @@ export class AuthProvider {
       return promesa;
     }
 
+    /// Metodo que Carga En el storage el funcionario registrado
     public cargarStorageFuncionarios(){
       return new  Promise ( (resolve, reject) => {
         if (this.platform.is('cordova')){
@@ -313,14 +315,15 @@ export class AuthProvider {
       });
     }
 
-  getMensajes() {
+    /// Metodo que obtiene los Mensajes
+    public getMensajes() {
     this.msg = [];
     let url = this.UrlObtenerMensaje+'/'+this.funRegistro;
 
     return this.http.get( url )
       .map( res => {
         let dateRes = res.json();
-        console.log(res.json());
+        //console.log(res.json());
         let mensag;
         for (let re of dateRes) {
           let sep = re.mensaje.split('*');
@@ -328,10 +331,31 @@ export class AuthProvider {
           let mensajeTica= sep[1];
           let mensajeMuni= sep[2];
           let mensajeLosa= sep[3];
-          mensag = new mensaje (re.fechaM, titulo, mensajeTica, mensajeMuni, mensajeLosa);
+          mensag = new mensaje (re.id, re.fechaM, titulo, mensajeTica, mensajeMuni, mensajeLosa, re.confirmacion);
           this.msg.push(mensag);
         }
         return true;
       });
   }
+
+    /// Metodo que Edita el estado de confirmacion
+
+    public EditStado(idMsg){
+      console.log(idMsg);
+      let url = this.UrlObtenerMensaje+'/'+idMsg;
+      console.log(url);
+      var body = {
+        confirmacion: 'true'
+      };
+      let headers = new Headers({
+        'Content-Type':'application/json'
+      });
+
+      return this.http.put(url, body, {headers})
+        .map(res=>{
+          console.log("estoy en el put");
+          return res.json();
+        })
+    }
+
 }
