@@ -49,9 +49,10 @@
   </div>-->
 
   <ion-card *ngFor="let mensajes of auth.msg, let i = index">
-    <ion-item color="danger">
+    <ion-item [ngClass]="{'colordanger': mensajes.confirmacion=='false',
+                          'colorAzul': mensajes.confirmacion=='true'}" >
       <ion-row>
-        <ion-col>{{mensajes.titulo}}</ion-col>
+        <ion-col>{{mensajes.titulo }}</ion-col>
         <ion-col  class="tamanoLetr" text-right>{{mensajes.fecha | date:'d-MM-yy' }}</ion-col>
       </ion-row>
     </ion-item>
