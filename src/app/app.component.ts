@@ -31,7 +31,7 @@ export class MyApp {
               this.rootPage = AntesDePrincipalPage;
              // console.log('Cargamos Funcionarios');
              // console.log(this.auth.funRegistro);
-             // this.auth.getOneSignal();
+              this.auth.getOneSignal();
 
             }else{
               this.rootPage = HomePage;

@@ -72,7 +72,7 @@ export class AuthProvider {
             this.DatosFun = dateRes;
             this.sessionStart = true;
             this.funRegistro = re.registro;
-           // this.getOneSignal();
+            this.getOneSignal();
             console.log("En el getfun sessionstart: " + this.sessionStart);
             //console.log(JSON.stringify(this.DatosFun));
             this.guardamosStorageSession();
